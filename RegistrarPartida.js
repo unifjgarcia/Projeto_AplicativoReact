@@ -122,4 +122,3 @@ const estilos = StyleSheet.create({
 });
 
 export default RegistrarPartida;
-
