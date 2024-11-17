@@ -1,119 +1,119 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Historico = () => {
-  const [partidas, setPartidas] = useState([]);
+const Historico = ({ navigation }) => {
+  const [historico, setHistorico] = useState([]);
 
   useEffect(() => {
+    const carregarHistorico = async () => {
+      const historicoSalvo = await AsyncStorage.getItem('historicoPartidas');
+      setHistorico(historicoSalvo ? JSON.parse(historicoSalvo) : []);
+    };
     carregarHistorico();
   }, []);
 
-  const carregarHistorico = async () => {
-    try {
-      const historicoSalvo = await AsyncStorage.getItem('historicoPartidas');
-      const historico = historicoSalvo ? JSON.parse(historicoSalvo) : [];
-      setPartidas(historico);
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Erro', 'Não foi possível carregar o histórico.');
-    }
-  };
-
-  const limparHistorico = async () => {
-    try {
-      await AsyncStorage.removeItem('historicoPartidas');
-      setPartidas([]);
-      Alert.alert('Sucesso', 'Histórico limpo com sucesso!');
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Erro', 'Não foi possível limpar o histórico.');
-    }
-  };
-
-  const renderItem = ({ item }) => (
-    <View style={estilos.item}>
-      <Text style={estilos.texto}>
-        <Text style={estilos.rotulo}>Data:</Text> {new Date(item.data).toLocaleDateString()}
+  const renderItem = ({ item, index }) => (
+    <View style={styles.item}>
+      <Text style={styles.texto}>
+        <Text style={styles.label}>Partida {index + 1}:</Text>
       </Text>
-      <Text style={estilos.texto}>
-        <Text style={estilos.rotulo}>Gols:</Text> {item.gols}
-      </Text>
-      <Text style={estilos.texto}>
-        <Text style={estilos.rotulo}>Assistências:</Text> {item.assistencias}
-      </Text>
-      {item.observacao ? (
-        <Text style={estilos.texto}>
-          <Text style={estilos.rotulo}>Observação:</Text> {item.observacao}
-        </Text>
-      ) : null}
+      <Text style={styles.texto}>Gols: {item.gols}</Text>
+      <Text style={styles.texto}>Assistências: {item.assistencias}</Text>
+      {item.observacao ? <Text style={styles.texto}>Obs: {item.observacao}</Text> : null}
+      <Text style={styles.data}>Data: {new Date(item.data).toLocaleDateString()}</Text>
     </View>
   );
 
   return (
-    <View style={estilos.container}>
-      <Text style={estilos.titulo}>Histórico de Partidas</Text>
-      {partidas.length === 0 ? (
-        <Text style={estilos.mensagem}>Nenhuma partida registrada ainda.</Text>
-      ) : (
-        <FlatList
-          data={partidas}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      )}
-      <TouchableOpacity style={estilos.botao} onPress={limparHistorico}>
-        <Text style={estilos.textoBotao}>Limpar Histórico</Text>
+    <View style={styles.container}>
+      {/* Botão de Voltar */}
+      <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
+        <Text style={styles.textoBotaoVoltar}>{"<"}</Text>
       </TouchableOpacity>
+
+      <View style={styles.content}>
+        <Text style={styles.titulo}>Histórico de Partidas</Text>
+        {historico.length > 0 ? (
+          <FlatList
+            data={historico}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.lista}
+          />
+        ) : (
+          <Text style={styles.texto}>Nenhuma partida registrada ainda.</Text>
+        )}
+      </View>
     </View>
   );
 };
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f4f4',
-    padding: 20,
+    backgroundColor: '#1e90ff',
+  },
+  botaoVoltar: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 50,
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  textoBotaoVoltar: {
+    fontSize: 18,
+    color: '#000',
+    fontWeight: 'bold',
+  },
+  content: {
+    flex: 1,
+    marginTop: 20,
+    paddingHorizontal: 20,
   },
   titulo: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#34495e',
   },
-  mensagem: {
-    fontSize: 16,
-    color: '#7f8c8d',
-    textAlign: 'center',
-    marginTop: 20,
+  lista: {
+    paddingBottom: 20,
   },
   item: {
     backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderRadius: 10,
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   texto: {
     fontSize: 16,
-    color: '#34495e',
+    color: '#333',
   },
-  rotulo: {
+  label: {
     fontWeight: 'bold',
+    color: '#000',
   },
-  botao: {
-    backgroundColor: '#e74c3c',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  textoBotao: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  data: {
+    marginTop: 10,
+    fontSize: 14,
+    color: '#666',
   },
 });
 
