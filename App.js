@@ -13,7 +13,12 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="TelaInicio">
+      <Stack.Navigator 
+        initialRouteName="TelaInicio"
+        screenOptions={{
+          headerShown: false, // Oculta o cabeçalho em todas as telas
+        }}
+      >
         <Stack.Screen name="TelaInicio" component={TelaInicio} />
         <Stack.Screen name="RegistrarPartida" component={RegistrarPartida} />
         <Stack.Screen name="Historico" component={Historico} />
@@ -22,4 +27,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
 
