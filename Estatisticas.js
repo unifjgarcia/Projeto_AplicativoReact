@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Estatisticas = ({ navigation }) => {
@@ -33,7 +33,11 @@ const Estatisticas = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('./Imagem2.webp')} // Atualize para o caminho correto
+      style={styles.container}
+      resizeMode="cover"
+    >
       {/* Botão de Voltar */}
       <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
         <Text style={styles.textoBotaoVoltar}>{"<"}</Text>
@@ -62,14 +66,13 @@ const Estatisticas = ({ navigation }) => {
           <Text style={styles.valor}>{mediaAssistencias}</Text>
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1e90ff',
   },
   botaoVoltar: {
     position: 'absolute',
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     padding: 20,
     marginBottom: 15,
