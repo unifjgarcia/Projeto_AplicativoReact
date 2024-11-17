@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Historico = ({ navigation }) => {
@@ -26,7 +26,11 @@ const Historico = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('./Imagem2.webp')}
+      style={styles.container}
+      resizeMode="cover"
+    >
       {/* Botão de Voltar */}
       <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
         <Text style={styles.textoBotaoVoltar}>{"<"}</Text>
@@ -45,14 +49,13 @@ const Historico = ({ navigation }) => {
           <Text style={styles.texto}>Nenhuma partida registrada ainda.</Text>
         )}
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1e90ff',
   },
   botaoVoltar: {
     position: 'absolute',
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 80,
     paddingHorizontal: 20,
   },
   titulo: {
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   item: {
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
