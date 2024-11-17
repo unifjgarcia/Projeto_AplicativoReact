@@ -9,8 +9,8 @@ const TelaInicial = ({ navigation }) => {
       resizeMode="cover"
     >
       <View style={estilos.overlay}>
-        <Text style={estilos.titulo}>Diário de Futebol</Text>
-        <Text style={estilos.subtitulo}>Gerencie seu desempenho como jogador!</Text>
+        <Text style={estilos.titulo}>Minha Carreira</Text>
+        <Text style={estilos.subtitulo}>Gerencie sua carreira e veja seus desempenhos!</Text>
 
         <View style={estilos.botoesContainer}>
           <TouchableOpacity
