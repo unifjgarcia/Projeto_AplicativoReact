@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  ImageBackground,
+  Keyboard,
+  ScrollView,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RegistrarPartida = () => {
+const RegistrarPartida = ({ navigation }) => {
   const [gols, setGols] = useState('');
   const [assistencias, setAssistencias] = useState('');
   const [observacao, setObservacao] = useState('');
@@ -17,20 +30,14 @@ const RegistrarPartida = () => {
       gols: parseInt(gols, 10),
       assistencias: parseInt(assistencias, 10),
       observacao: observacao || '',
-      data: new Date().toISOString(), // Salva a data atual
+      data: new Date().toISOString(),
     };
 
     try {
-      // Recupera o histórico atual
       const historicoSalvo = await AsyncStorage.getItem('historicoPartidas');
       const historico = historicoSalvo ? JSON.parse(historicoSalvo) : [];
-
-      // Adiciona a nova partida
       historico.push(novaPartida);
-
-      // Salva o histórico atualizado
       await AsyncStorage.setItem('historicoPartidas', JSON.stringify(historico));
-
       Alert.alert('Sucesso', 'Partida salva com sucesso!');
       limparCampos();
     } catch (error) {
@@ -46,77 +53,132 @@ const RegistrarPartida = () => {
   };
 
   return (
-    <View style={estilos.container}>
-      <Text style={estilos.titulo}>Registrar Partida</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground
+          source={require('./ImagemRegistro.webp')}
+          style={estilos.container}
+          resizeMode="cover"
+        >
+          <ScrollView contentContainerStyle={estilos.overlay}>
+            {/* Botão de Voltar */}
+            <TouchableOpacity style={estilos.botaoVoltar} onPress={() => navigation.goBack()}>
+              <Text style={estilos.textoBotaoVoltar}>{"<"}</Text>
+            </TouchableOpacity>
 
-      <TextInput
-        style={estilos.input}
-        placeholder="Número de Gols"
-        keyboardType="numeric"
-        value={gols}
-        onChangeText={setGols}
-      />
+            <Text style={estilos.titulo}>Registrar Partida</Text>
 
-      <TextInput
-        style={estilos.input}
-        placeholder="Número de Assistências"
-        keyboardType="numeric"
-        value={assistencias}
-        onChangeText={setAssistencias}
-      />
+            <TextInput
+              style={estilos.input}
+              placeholder="Número de Gols"
+              keyboardType="numeric"
+              value={gols}
+              onChangeText={setGols}
+              placeholderTextColor="#aaa"
+            />
 
-      <TextInput
-        style={[estilos.input, estilos.inputGrande]}
-        placeholder="Observação (opcional)"
-        multiline
-        numberOfLines={4}
-        value={observacao}
-        onChangeText={setObservacao}
-      />
+            <TextInput
+              style={estilos.input}
+              placeholder="Número de Assistências"
+              keyboardType="numeric"
+              value={assistencias}
+              onChangeText={setAssistencias}
+              placeholderTextColor="#aaa"
+            />
 
-      <TouchableOpacity style={estilos.botao} onPress={salvarPartida}>
-        <Text style={estilos.textoBotao}>Salvar</Text>
-      </TouchableOpacity>
-    </View>
+            <TextInput
+              style={[estilos.input, estilos.inputGrande]}
+              placeholder="Observação (opcional)"
+              multiline
+              numberOfLines={4}
+              value={observacao}
+              onChangeText={setObservacao}
+              placeholderTextColor="#aaa"
+            />
+
+            <TouchableOpacity style={estilos.botao} onPress={salvarPartida}>
+              <Text style={estilos.textoBotao}>Salvar Partida</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const estilos = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f4f4',
+  },
+  overlay: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Escurece o fundo para melhor visibilidade
+  },
+  botaoVoltar: {
+    position: 'absolute',
+    top: 40, // Ajusta conforme necessário
+    left: 20,
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 50, // Circular
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  textoBotaoVoltar: {
+    fontSize: 18,
+    color: '#000',
+    fontWeight: 'bold',
   },
   titulo: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#34495e',
+    color: '#fff',
   },
   input: {
     backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: 15,
+    padding: 12,
     marginBottom: 15,
     fontSize: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 2,
   },
   inputGrande: {
     height: 100,
-    textAlignVertical: 'top', // Alinha o texto no topo do campo
+    textAlignVertical: 'top',
   },
   botao: {
-    backgroundColor: '#3498db',
+    backgroundColor: '#4CAF50',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
   },
   textoBotao: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
