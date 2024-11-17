@@ -14,14 +14,22 @@ import {
   Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Audio } from 'expo-av';
 
 const RegistrarPartida = ({ navigation }) => {
   const [gols, setGols] = useState('');
   const [assistencias, setAssistencias] = useState('');
   const [observacao, setObservacao] = useState('');
 
+  // Função para tocar o som
+  const tocarSom = async (som) => {
+    const { sound } = await Audio.Sound.createAsync(som);
+    await sound.playAsync();
+  };
+
   const salvarPartida = async () => {
     if (!gols || !assistencias) {
+      await tocarSom(require('./erro.mp3')); // Som de erro
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios!');
       return;
     }
@@ -38,10 +46,12 @@ const RegistrarPartida = ({ navigation }) => {
       const historico = historicoSalvo ? JSON.parse(historicoSalvo) : [];
       historico.push(novaPartida);
       await AsyncStorage.setItem('historicoPartidas', JSON.stringify(historico));
+      await tocarSom(require('./somApito.wav')); // Som de apito
       Alert.alert('Sucesso', 'Partida salva com sucesso!');
       limparCampos();
     } catch (error) {
       console.error(error);
+      await tocarSom(require('./erro.mp3')); // Som de erro
       Alert.alert('Erro', 'Não foi possível salvar a partida.');
     }
   };
@@ -59,7 +69,7 @@ const RegistrarPartida = ({ navigation }) => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ImageBackground
-          source={require('./ImagemRegistro.webp')}
+          source={require('./Imagem2.webp')}
           style={estilos.container}
           resizeMode="cover"
         >
@@ -184,3 +194,4 @@ const estilos = StyleSheet.create({
 });
 
 export default RegistrarPartida;
+
