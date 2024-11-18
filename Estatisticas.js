@@ -34,7 +34,7 @@ const Estatisticas = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require('./Imagem2.webp')} // Atualize para o caminho correto
+      source={require('./Imagem2.webp')} 
       style={styles.container}
       resizeMode="cover"
     >
