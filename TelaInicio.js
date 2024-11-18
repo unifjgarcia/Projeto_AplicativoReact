@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react
 const TelaInicial = ({ navigation }) => {
   return (
     <ImageBackground
-      source={require('./ImagemMenu.webp')} // Substitua pela URL da sua imagem
+      source={require('./ImagemMenu.webp')}
       style={estilos.container}
       resizeMode="cover"
     >
@@ -47,7 +47,7 @@ const estilos = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Deixa o fundo escurecido para melhorar a leitura
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
