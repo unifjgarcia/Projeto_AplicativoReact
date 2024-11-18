@@ -29,7 +29,7 @@ const RegistrarPartida = ({ navigation }) => {
 
   const salvarPartida = async () => {
     if (!gols || !assistencias) {
-      await tocarSom(require('./erro.mp3')); // Som de erro
+      await tocarSom(require('./erro.mp3')); 
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios!');
       return;
     }
@@ -46,17 +46,17 @@ const RegistrarPartida = ({ navigation }) => {
       const historico = historicoSalvo ? JSON.parse(historicoSalvo) : [];
       historico.push(novaPartida);
       await AsyncStorage.setItem('historicoPartidas', JSON.stringify(historico));
-      await tocarSom(require('./somApito.wav')); // Som de apito
+      await tocarSom(require('./somApito.wav')); 
       Alert.alert('Sucesso', 'Partida salva com sucesso!');
-      limparCampos();
+      resetar();
     } catch (error) {
       console.error(error);
-      await tocarSom(require('./erro.mp3')); // Som de erro
+      await tocarSom(require('./erro.mp3'));
       Alert.alert('Erro', 'Não foi possível salvar a partida.');
     }
   };
 
-  const limparCampos = () => {
+  const resetar = () => {
     setGols('');
     setAssistencias('');
     setObservacao('');
@@ -127,15 +127,15 @@ const estilos = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Escurece o fundo para melhor visibilidade
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   botaoVoltar: {
     position: 'absolute',
-    top: 40, // Ajusta conforme necessário
+    top: 40, 
     left: 20,
     backgroundColor: '#fff',
     padding: 10,
-    borderRadius: 50, // Circular
+    borderRadius: 50,
     width: 40,
     height: 40,
     alignItems: 'center',
