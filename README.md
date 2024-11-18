@@ -1,4 +1,4 @@
-# Minha Carreira
+# Aplicativo Minha Carreira
 
 Ideia geral do App:
 - Minha Carreira é um aplicativo criado com React para auxiliar jogadores de futebol a gerenciar suas próprias carreiras e analisar seus desempenhos individuais.
@@ -38,4 +38,5 @@ Funcionalidades:
 4. Tela Estatísticas:
 - Permite que o usuário veja suas estatísticas gerais calculadas pelo aplicativo de acordo com seus registros, como médias e total de gols e assistências.
 
+![Tela Estatísticas](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Estatistica.jpg)
 
