@@ -18,3 +18,9 @@ Objetivos:
 Funcionalidades:
 1. Tela Inicial (Menu):
 - Apresenta todos os botões para navegar pelo app (Registrar Partida, Histórico, Estatísticas).
+![Tela Inicial](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Menu.jpg)
+
+2. Tela Registrar Partida:
+- Permite que o usuário digite seus gols, assitências e observações da partida.
+![Tela Registrar Partida](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Registro.jpg)
+
