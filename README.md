@@ -23,4 +23,19 @@ Funcionalidades:
 2. Tela Registrar Partida:
 - Permite que o usuário digite seus gols, assitências e observações da partida.
 ![Tela Registrar Partida](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Registro.jpg)
+- Após o usuário salvar o registro, mostra mensagem de sucesso e emite som de apito.
+![Registro com Sucesso](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Sucesso.jpg)
+- Caso o usuário não digite todas as informações obrigatórias (gols e assistências), mostra mensagem de erro e emite som de erro.
+
+![Registro com Erro](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Erro.jpg)
+
+
+3. Tela Histórico:
+- Permite que o usuário veja todos os registros feitos, que são salvos com AsyncStorage, que armazena todo o historico ja registrado naquele dispositivo.
+
+![Tela Historico](https://github.com/unifjgarcia/Projeto_AplicativoReact/raw/main/imagens/Historico.jpg)
+
+4. Tela Estatísticas:
+- Permite que o usuário veja suas estatísticas gerais calculadas pelo aplicativo de acordo com seus registros, como médias e total de gols e assistências.
+
 
